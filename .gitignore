@@ -1,0 +1,8 @@
+**/target/
+.idea/
+*.iml
+.env
+.m2/
+.superpowers/
+*.log
+evidence/runtime/
