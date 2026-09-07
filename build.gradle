@@ -1,0 +1,38 @@
+plugins {
+    id 'org.springframework.boot' version '4.1.1' apply false
+}
+subprojects {
+    apply plugin: 'java-library'
+    group = 'dev.saga'
+    version = '1.0.0-SNAPSHOT'
+    repositories { mavenCentral() }
+    java { toolchain { languageVersion = JavaLanguageVersion.of(26) } }
+    tasks.withType(JavaCompile).configureEach {
+        options.compilerArgs.add('-parameters')
+        options.encoding = 'UTF-8'
+    }
+    dependencies {
+        api platform('org.springframework.boot:spring-boot-dependencies:4.1.1')
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+        testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    }
+    tasks.withType(Test).configureEach {
+        useJUnitPlatform { excludeTags 'integration' }
+        testLogging { events 'failed', 'skipped'; exceptionFormat = 'full' }
+    }
+    tasks.register('integrationTest', Test) {
+        description = 'Runs real PostgreSQL integration tests; requires Compose postgres.'
+        group = 'verification'
+        testClassesDirs = sourceSets.test.output.classesDirs
+        classpath = sourceSets.test.runtimeClasspath
+        useJUnitPlatform { includeTags 'integration'; excludeTags = [] as Set }
+        shouldRunAfter test
+    }
+    tasks.withType(JavaExec).configureEach { jvmArgs '-Duser.timezone=UTC' }
+}
+configure(subprojects.findAll { it.name.endsWith('-service') }) {
+    apply plugin: 'org.springframework.boot'
+    dependencies { implementation project(':messaging') }
+    tasks.named('bootJar') { archiveFileName = 'app.jar' }
+    tasks.named('jar') { enabled = false }
+}

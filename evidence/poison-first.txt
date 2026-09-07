@@ -1,0 +1,2 @@
+Poison quarantine and actual Kafka DLT: PASS 7aff2258-4f52-46a6-9ec6-5c7fba3e203b
+All resilience exercises passed.

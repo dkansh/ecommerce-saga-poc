@@ -1,0 +1,104 @@
+name: ecommerce-saga
+x-app: &app
+  build:
+    context: .
+  restart: unless-stopped
+  depends_on:
+    postgres:
+      condition: service_healthy
+    kafka:
+      condition: service_healthy
+  healthcheck:
+    test: ["CMD", "curl", "-fsS", "http://localhost:8080/actuator/health"]
+    interval: 5s
+    timeout: 3s
+    retries: 30
+    start_period: 45s
+x-env: &env
+  KAFKA_BOOTSTRAP_SERVERS: kafka:19092
+  SERVER_PORT: 8080
+  DEMO_ENABLED: "true"
+  DEMO_TOKEN: ${DEMO_TOKEN:-local-demo-token}
+  SAGA_TIMEOUT_SECONDS: ${SAGA_TIMEOUT_SECONDS:-30}
+  COMPENSATION_TIMEOUT_SECONDS: ${COMPENSATION_TIMEOUT_SECONDS:-30}
+services:
+  postgres:
+    image: postgres:18.6
+    environment:
+      POSTGRES_USER: bootstrap
+      POSTGRES_PASSWORD: local-bootstrap
+      POSTGRES_DB: bootstrap
+    ports: ["127.0.0.1:55432:5432"]
+    volumes:
+      - postgres-data:/var/lib/postgresql
+      - ./infra/init-databases.sql:/docker-entrypoint-initdb.d/01-databases.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U bootstrap -d bootstrap"]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+  kafka:
+    image: apache/kafka:4.3.1
+    ports: ["127.0.0.1:9092:9092"]
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_LISTENERS: INTERNAL://:19092,EXTERNAL://:9092,CONTROLLER://:9093
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka:19092,EXTERNAL://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT,CONTROLLER:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"
+      KAFKA_LOG_DIRS: /var/lib/kafka/data
+      KAFKA_HEAP_OPTS: "-Xms256m -Xmx512m"
+      CLUSTER_ID: MkU3OEVBNTcwNTJENDM2Qk
+    volumes: ["kafka-data:/var/lib/kafka/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:19092 --list >/dev/null"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+  order-service:
+    <<: *app
+    build: {context: ., args: {SERVICE: order-service}}
+    ports: ["127.0.0.1:8080:8080"]
+    environment:
+      <<: *env
+      DB_URL: jdbc:postgresql://postgres:5432/orders
+      DB_USER: orders
+      DB_PASSWORD: orders
+  inventory-service:
+    <<: *app
+    build: {context: ., args: {SERVICE: inventory-service}}
+    ports: ["127.0.0.1:18081:8080"]
+    environment:
+      <<: *env
+      DB_URL: jdbc:postgresql://postgres:5432/inventory
+      DB_USER: inventory
+      DB_PASSWORD: inventory
+  payment-service:
+    <<: *app
+    build: {context: ., args: {SERVICE: payment-service}}
+    ports: ["127.0.0.1:8082:8080"]
+    environment:
+      <<: *env
+      DB_URL: jdbc:postgresql://postgres:5432/payments
+      DB_USER: payments
+      DB_PASSWORD: payments
+  shipping-service:
+    <<: *app
+    build: {context: ., args: {SERVICE: shipping-service}}
+    ports: ["127.0.0.1:8083:8080"]
+    environment:
+      <<: *env
+      DB_URL: jdbc:postgresql://postgres:5432/shipping
+      DB_USER: shipping
+      DB_PASSWORD: shipping
+volumes:
+  postgres-data:
+  kafka-data:

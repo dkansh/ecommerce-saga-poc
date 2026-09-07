@@ -1,0 +1,21 @@
+-- Local POC credentials only. Each login owns and accesses just its database.
+CREATE USER orders PASSWORD 'orders';
+CREATE USER inventory PASSWORD 'inventory';
+CREATE USER payments PASSWORD 'payments';
+CREATE USER shipping PASSWORD 'shipping';
+CREATE USER saga_test PASSWORD 'saga_test';
+CREATE DATABASE orders OWNER orders;
+CREATE DATABASE inventory OWNER inventory;
+CREATE DATABASE payments OWNER payments;
+CREATE DATABASE shipping OWNER shipping;
+CREATE DATABASE saga_test OWNER saga_test;
+REVOKE CONNECT ON DATABASE orders FROM PUBLIC;
+REVOKE CONNECT ON DATABASE inventory FROM PUBLIC;
+REVOKE CONNECT ON DATABASE payments FROM PUBLIC;
+REVOKE CONNECT ON DATABASE shipping FROM PUBLIC;
+REVOKE CONNECT ON DATABASE saga_test FROM PUBLIC;
+GRANT CONNECT ON DATABASE orders TO orders;
+GRANT CONNECT ON DATABASE inventory TO inventory;
+GRANT CONNECT ON DATABASE payments TO payments;
+GRANT CONNECT ON DATABASE shipping TO shipping;
+GRANT CONNECT ON DATABASE saga_test TO saga_test;

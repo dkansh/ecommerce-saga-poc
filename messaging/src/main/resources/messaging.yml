@@ -1,0 +1,56 @@
+spring:
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+    hikari:
+      maximum-pool-size: 8
+      connection-timeout: 5000
+      connection-init-sql: SET statement_timeout = '10s'
+  flyway:
+    locations: classpath:db/migration/common,classpath:db/migration/own
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    consumer:
+      group-id: ${spring.application.name}
+      auto-offset-reset: earliest
+      enable-auto-commit: false
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        max.poll.interval.ms: 120000
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      acks: all
+      properties:
+        enable.idempotence: true
+        max.block.ms: 5000
+        delivery.timeout.ms: 10000
+        request.timeout.ms: 5000
+    listener:
+      ack-mode: record
+      concurrency: 3
+  lifecycle:
+    timeout-per-shutdown-phase: 20s
+server:
+  shutdown: graceful
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: never
+logging:
+  pattern:
+    level: "%5p [saga=%X{sagaId:-}]"
+saga:
+  timeout-seconds: ${SAGA_TIMEOUT_SECONDS:30}
+  compensation-timeout-seconds: ${COMPENSATION_TIMEOUT_SECONDS:30}
+demo:
+  enabled: ${DEMO_ENABLED:false}
+  token: ${DEMO_TOKEN:local-demo-token}

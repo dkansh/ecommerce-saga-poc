@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: order-service
+  config:
+    import: classpath:messaging.yml
+server:
+  port: ${SERVER_PORT:8080}

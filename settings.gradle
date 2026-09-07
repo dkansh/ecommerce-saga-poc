@@ -1,0 +1,2 @@
+rootProject.name = 'ecommerce-saga-poc'
+include 'messaging', 'order-service', 'inventory-service', 'payment-service', 'shipping-service'

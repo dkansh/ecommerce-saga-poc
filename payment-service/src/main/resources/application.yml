@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: payment-service
+  config:
+    import: classpath:messaging.yml
+server:
+  port: 8082

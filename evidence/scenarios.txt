@@ -1,0 +1,135 @@
+Saga scenarios (full)
+Polling timeout: 100s
+
+> all four services are ready
+[PASS] all four services are ready (0.08s)
+
+> ORCHESTRATION: invalid quantity is rejected
+[PASS] ORCHESTRATION: invalid quantity is rejected (0.16s)
+
+> ORCHESTRATION: success and HTTP idempotency
+  c7a0eb40-fe7d-48be-b984-3e862c2f4811: RESERVING
+  c7a0eb40-fe7d-48be-b984-3e862c2f4811: PAYING
+  c7a0eb40-fe7d-48be-b984-3e862c2f4811: SHIPPING
+  c7a0eb40-fe7d-48be-b984-3e862c2f4811: COMPLETED
+[PASS] ORCHESTRATION: success and HTTP idempotency (1.91s)
+
+> ORCHESTRATION: sold-out inventory compensates
+  7fc457cb-a1ac-4e92-ba1a-53b1b25593e7: RESERVING
+  7fc457cb-a1ac-4e92-ba1a-53b1b25593e7: CANCELLING_SHIPPING
+  7fc457cb-a1ac-4e92-ba1a-53b1b25593e7: REFUNDING
+  7fc457cb-a1ac-4e92-ba1a-53b1b25593e7: RELEASING
+  7fc457cb-a1ac-4e92-ba1a-53b1b25593e7: CANCELLED
+[PASS] ORCHESTRATION: sold-out inventory compensates (1.26s)
+
+> ORCHESTRATION: declined payment compensates
+  1181da34-6991-43d4-9427-147be91dd877: RESERVING
+  1181da34-6991-43d4-9427-147be91dd877: PAYING
+  1181da34-6991-43d4-9427-147be91dd877: REFUNDING
+  1181da34-6991-43d4-9427-147be91dd877: RELEASING
+  1181da34-6991-43d4-9427-147be91dd877: CANCELLED
+[PASS] ORCHESTRATION: declined payment compensates (1.76s)
+
+> ORCHESTRATION: rejected shipping compensates
+  a40f1eb2-cec3-4119-9979-1603283886ca: RESERVING
+  a40f1eb2-cec3-4119-9979-1603283886ca: PAYING
+  a40f1eb2-cec3-4119-9979-1603283886ca: CANCELLING_SHIPPING
+  a40f1eb2-cec3-4119-9979-1603283886ca: REFUNDING
+  a40f1eb2-cec3-4119-9979-1603283886ca: CANCELLED
+[PASS] ORCHESTRATION: rejected shipping compensates (1.76s)
+
+> ORCHESTRATION: transient payment failure retries to success
+  4927b9ca-b939-4965-a637-4116bac71fdf: RESERVING
+  4927b9ca-b939-4965-a637-4116bac71fdf: PAYING
+  4927b9ca-b939-4965-a637-4116bac71fdf: SHIPPING
+  4927b9ca-b939-4965-a637-4116bac71fdf: COMPLETED
+[PASS] ORCHESTRATION: transient payment failure retries to success (2.53s)
+
+> ORCHESTRATION: client cancellation compensates
+  46f61bfe-6928-4e0a-8664-1f3f7f2c6218: CANCELLING_SHIPPING
+  46f61bfe-6928-4e0a-8664-1f3f7f2c6218: REFUNDING
+  46f61bfe-6928-4e0a-8664-1f3f7f2c6218: RELEASING
+  46f61bfe-6928-4e0a-8664-1f3f7f2c6218: CANCELLED
+[PASS] ORCHESTRATION: client cancellation compensates (2.12s)
+
+> ORCHESTRATION: same message id is applied once
+[PASS] ORCHESTRATION: same message id is applied once (2.37s)
+
+> ORCHESTRATION: cancellation tombstones reject late forward work
+[PASS] ORCHESTRATION: cancellation tombstones reject late forward work (2.92s)
+
+> ORCHESTRATION: unavailable payment is quarantined, times out, and replays safely
+  38a08cc4-253d-434b-87e9-60c5cac0e2ba: PAYING
+  38a08cc4-253d-434b-87e9-60c5cac0e2ba: CANCELLED
+[PASS] ORCHESTRATION: unavailable payment is quarantined, times out, and replays safely (34.03s)
+
+> ORCHESTRATION: failed refund reaches manual intervention and recovers
+  0f795181-a647-4271-b6aa-211703a64dbf: RESERVING
+  0f795181-a647-4271-b6aa-211703a64dbf: PAYING
+  0f795181-a647-4271-b6aa-211703a64dbf: SHIPPING
+  0f795181-a647-4271-b6aa-211703a64dbf: REFUNDING
+  0f795181-a647-4271-b6aa-211703a64dbf: MANUAL_INTERVENTION
+  0f795181-a647-4271-b6aa-211703a64dbf: CANCELLING_SHIPPING
+  0f795181-a647-4271-b6aa-211703a64dbf: REFUNDING
+  0f795181-a647-4271-b6aa-211703a64dbf: RELEASING
+  0f795181-a647-4271-b6aa-211703a64dbf: CANCELLED
+[PASS] ORCHESTRATION: failed refund reaches manual intervention and recovers (33.06s)
+
+> CHOREOGRAPHY: invalid quantity is rejected
+[PASS] CHOREOGRAPHY: invalid quantity is rejected (0.01s)
+
+> CHOREOGRAPHY: success and HTTP idempotency
+  0aa12262-8c6b-4ce2-9460-83fe1e7cd5a8: PENDING
+  0aa12262-8c6b-4ce2-9460-83fe1e7cd5a8: COMPLETED
+[PASS] CHOREOGRAPHY: success and HTTP idempotency (0.52s)
+
+> CHOREOGRAPHY: sold-out inventory compensates
+  3a0669a0-75a5-4ba2-8a30-9df37da3776b: PENDING
+  3a0669a0-75a5-4ba2-8a30-9df37da3776b: COMPENSATING
+  3a0669a0-75a5-4ba2-8a30-9df37da3776b: CANCELLED
+[PASS] CHOREOGRAPHY: sold-out inventory compensates (0.85s)
+
+> CHOREOGRAPHY: declined payment compensates
+  fa2538f1-457f-4209-8f40-24180a2f89f7: PENDING
+  fa2538f1-457f-4209-8f40-24180a2f89f7: COMPENSATING
+  fa2538f1-457f-4209-8f40-24180a2f89f7: CANCELLED
+[PASS] CHOREOGRAPHY: declined payment compensates (0.81s)
+
+> CHOREOGRAPHY: rejected shipping compensates
+  28789947-27e5-4c78-b569-33ba19df84ad: PENDING
+  28789947-27e5-4c78-b569-33ba19df84ad: CANCELLED
+[PASS] CHOREOGRAPHY: rejected shipping compensates (0.80s)
+
+> CHOREOGRAPHY: transient payment failure retries to success
+  5e141a24-bbd1-44f0-9a4d-535a630e0309: PENDING
+  5e141a24-bbd1-44f0-9a4d-535a630e0309: COMPLETED
+[PASS] CHOREOGRAPHY: transient payment failure retries to success (1.75s)
+
+> CHOREOGRAPHY: client cancellation compensates
+  eaf86a87-4694-4edf-9fd2-1eef1b5ebbdc: COMPENSATING
+  eaf86a87-4694-4edf-9fd2-1eef1b5ebbdc: CANCELLED
+[PASS] CHOREOGRAPHY: client cancellation compensates (3.84s)
+
+> CHOREOGRAPHY: same message id is applied once
+[PASS] CHOREOGRAPHY: same message id is applied once (3.41s)
+
+> CHOREOGRAPHY: cancellation tombstones reject late forward work
+[PASS] CHOREOGRAPHY: cancellation tombstones reject late forward work (2.69s)
+
+> CHOREOGRAPHY: unavailable payment is quarantined, times out, and replays safely
+  03df8706-11a5-4999-b8b2-aa6a3ae5aca7: PENDING
+  03df8706-11a5-4999-b8b2-aa6a3ae5aca7: CANCELLED
+[PASS] CHOREOGRAPHY: unavailable payment is quarantined, times out, and replays safely (33.96s)
+
+> CHOREOGRAPHY: failed refund reaches manual intervention and recovers
+  4471ad37-900b-4f51-a121-93e77dd38389: PENDING
+  4471ad37-900b-4f51-a121-93e77dd38389: COMPENSATING
+  4471ad37-900b-4f51-a121-93e77dd38389: MANUAL_INTERVENTION
+  4471ad37-900b-4f51-a121-93e77dd38389: COMPENSATING
+  4471ad37-900b-4f51-a121-93e77dd38389: CANCELLED
+[PASS] CHOREOGRAPHY: failed refund reaches manual intervention and recovers (32.38s)
+
+> concurrent reservations do not oversell
+[PASS] concurrent reservations do not oversell (1.81s)
+
+All scenarios passed in 166.77s.

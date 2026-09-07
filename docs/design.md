@@ -1,7 +1,7 @@
 # Ecommerce saga design
 
 Build four independently running Spring Boot services: Order (8080), Inventory
-(8081), Payment (8082), Shipping (8083). A Maven reactor contains these and a
+(18081), Payment (8082), Shipping (8083). A Gradle multi-project build contains these and a
 small messaging module. Each service owns a database and login. One PostgreSQL
 server and one Kafka KRaft broker keep local resource usage modest.
 
@@ -41,7 +41,7 @@ Duplicate HTTP idempotency keys return the original order; changed payload is 40
 Essential fields: one SKU, quantity, total amount in integer minor units, mode,
 fault scenario, IDs and state. No catalog, basket, customer, address, real card data,
 gateway, registry, Cassandra or Kubernetes. Include health/metrics, Flyway,
-structured correlation logs, Docker Compose, Maven wrapper, CI, unit and actual
+structured correlation logs, Docker Compose, Gradle Wrapper, CI, unit and actual
 PostgreSQL/Kafka tests, and a detailed Markdown runbook with sequence diagrams.
 
 Demonstrate both modes: success, no stock, payment decline, shipping rejection,

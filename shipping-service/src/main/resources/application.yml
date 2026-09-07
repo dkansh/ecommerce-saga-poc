@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: shipping-service
+  config:
+    import: classpath:messaging.yml
+server:
+  port: 8083

@@ -1,0 +1,65 @@
+[
+  {
+    "Suite": "dev.saga.messaging.DispatcherIntegrationTest",
+    "Tests": 6,
+    "Failures": 0,
+    "Errors": 0,
+    "Skipped": 0
+  },
+  {
+    "Suite": "dev.saga.messaging.MessageTest",
+    "Tests": 2,
+    "Failures": 0,
+    "Errors": 0,
+    "Skipped": 0
+  },
+  {
+    "Suite": "dev.saga.order.OrderServiceIntegrationTest",
+    "Tests": 5,
+    "Failures": 0,
+    "Errors": 0,
+    "Skipped": 0
+  },
+  {
+    "Suite": "dev.saga.order.SagaLogicTest",
+    "Tests": 6,
+    "Failures": 0,
+    "Errors": 0,
+    "Skipped": 0
+  },
+  {
+    "Suite": "dev.saga.inventory.InventoryHandlerIntegrationTest",
+    "Tests": 4,
+    "Failures": 0,
+    "Errors": 0,
+    "Skipped": 0
+  },
+  {
+    "Suite": "dev.saga.payment.PaymentHandlerIntegrationTest",
+    "Tests": 4,
+    "Failures": 0,
+    "Errors": 0,
+    "Skipped": 0
+  },
+  {
+    "Suite": "dev.saga.payment.ProviderConfigurationTest",
+    "Tests": 1,
+    "Failures": 0,
+    "Errors": 0,
+    "Skipped": 0
+  },
+  {
+    "Suite": "dev.saga.shipping.ShippingHandlerIntegrationTest",
+    "Tests": 4,
+    "Failures": 0,
+    "Errors": 0,
+    "Skipped": 0
+  },
+  {
+    "Suite": "dev.saga.shipping.ProviderConfigurationTest",
+    "Tests": 1,
+    "Failures": 0,
+    "Errors": 0,
+    "Skipped": 0
+  }
+]

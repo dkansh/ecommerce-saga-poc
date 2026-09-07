@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: inventory-service
+  config:
+    import: classpath:messaging.yml
+server:
+  port: ${SERVER_PORT:18081}

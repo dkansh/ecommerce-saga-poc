@@ -1,8 +1,8 @@
-**/target/
 .idea/
 *.iml
 .env
-.m2/
+.gradle/
+**/build/
 .superpowers/
 *.log
 evidence/runtime/
