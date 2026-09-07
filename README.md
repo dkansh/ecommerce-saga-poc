@@ -95,6 +95,9 @@ stops and restarts this project's Kafka/Payment/Order containers to verify outag
 then checks poison-record delivery to an actual Kafka DLT. Successful orders consume
 stock; follow the scenario runner's reset guidance for repeated full runs.
 
+Start with [the visual walkthrough](docs/VISUAL-WALKTHROUGH.md) for diagrams of both
+saga modes, compensation, retries and recovery. Its [standalone browser edition](docs/VISUAL-WALKTHROUGH.html)
+includes the rendered diagrams and works offline.
 See [the detailed guide](docs/GUIDE.md) for the architecture, transaction boundaries,
 every scenario, API reference, failure recovery, debugging and production trade-offs.
 See [verification evidence](docs/VERIFICATION.md) for what was actually executed.
