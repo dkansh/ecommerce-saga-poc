@@ -125,4 +125,6 @@ docker compose start
 its volumes. **`docker compose down -v` deletes this POC's database and Kafka data**;
 use it only when intentionally resetting the demo. Other Compose projects are unaffected.
 
-The Git repository is initialized locally. No remote or GitHub push is configured.
+Source repository: [dkansh/ecommerce-saga-poc](https://github.com/dkansh/ecommerce-saga-poc).
+The default branch is `main`. Build and scenario results are available in
+[GitHub Actions](https://github.com/dkansh/ecommerce-saga-poc/actions).

@@ -85,7 +85,10 @@ The complete live suite passed after rebuilding the corrected images.
 
 ## Scope of this evidence
 
-The GitHub Actions workflow is supplied but has not run on GitHub; no remote was pushed.
+At this local verification checkpoint on 2026-09-07, the GitHub Actions workflow
+had not run on GitHub and no remote had been pushed. The repository was subsequently
+published on 2026-09-08; current hosted results are available in
+[GitHub Actions](https://github.com/dkansh/ecommerce-saga-poc/actions).
 This is functional and recovery verification, not a load benchmark, a penetration test,
 a multi-host failover test, or validation against real payment/shipping providers.
 The tests cover duplicate delivery and rollback boundaries; they do not force a process
